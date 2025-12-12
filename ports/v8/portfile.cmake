@@ -1,22 +1,11 @@
-vcpkg_get_windows_sdk(WINDOWS_SDK)
 
-if (WINDOWS_SDK MATCHES "10.")
-    set(LIBFILEPATH "$ENV{WindowsSdkDir}Lib\\${WINDOWS_SDK}\\um\\${TRIPLET_SYSTEM_ARCH}\\Ws2_32.Lib")
-    set(HEADERSPATH "$ENV{WindowsSdkDir}Include\\${WINDOWS_SDK}\\um")
-elseif(WINDOWS_SDK MATCHES "8.")
-    set(LIBFILEPATH "$ENV{WindowsSdkDir}Lib\\winv6.3\\um\\${TRIPLET_SYSTEM_ARCH}\\Ws2_32.Lib")
-    set(HEADERSPATH "$ENV{WindowsSdkDir}Include\\um")
-else()
-    message(FATAL_ERROR "Portfile not yet configured for Windows SDK with version: ${WINDOWS_SDK}")
-endif()
-
-set(pkgver "14.3.127.17")
+set(pkgver "12.3.219.12")
 
 set(ENV{DEPOT_TOOLS_WIN_TOOLCHAIN} 0)
 
 get_filename_component(GIT_PATH ${GIT} DIRECTORY)
-vcpkg_find_acquire_program(PYTHON2)
-get_filename_component(PYTHON2_PATH ${PYTHON2} DIRECTORY)
+vcpkg_find_acquire_program(PYTHON3)
+get_filename_component(PYTHON3_PATH ${PYTHON3} DIRECTORY)
 vcpkg_find_acquire_program(GN)
 get_filename_component(GN_PATH ${GN} DIRECTORY)
 vcpkg_find_acquire_program(NINJA)
@@ -25,7 +14,7 @@ get_filename_component(NINJA_PATH ${NINJA} DIRECTORY)
 vcpkg_add_to_path(PREPEND "${CURRENT_INSTALLED_DIR}/bin")
 vcpkg_add_to_path(PREPEND "${CURRENT_INSTALLED_DIR}/debug/bin")
 vcpkg_add_to_path(PREPEND "${GIT_PATH}")
-vcpkg_add_to_path(PREPEND "${PYTHON2_PATH}")
+vcpkg_add_to_path(PREPEND "${PYTHON3_PATH}")
 vcpkg_add_to_path(PREPEND "${GN_PATH}")
 vcpkg_add_to_path(PREPEND "${NINJA_PATH}")
 if(VCPKG_TARGET_IS_WINDOWS)
@@ -114,7 +103,7 @@ v8_fetch(
         SOURCE ${SOURCE_PATH})
 
 vcpkg_execute_required_process(
-        COMMAND ${PYTHON2} build/util/lastchange.py -o build/util/LASTCHANGE
+        COMMAND ${PYTHON3} build/util/lastchange.py -o build/util/LASTCHANGE
         WORKING_DIRECTORY ${SOURCE_PATH}
         LOGNAME build-${TARGET_TRIPLET}
 )
