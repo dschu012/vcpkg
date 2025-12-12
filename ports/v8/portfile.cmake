@@ -10,7 +10,7 @@ else()
     message(FATAL_ERROR "Portfile not yet configured for Windows SDK with version: ${WINDOWS_SDK}")
 endif()
 
-set(pkgver "9.1.269.39")
+set(pkgver "14.3.127.17")
 
 set(ENV{DEPOT_TOOLS_WIN_TOOLCHAIN} 0)
 
@@ -82,41 +82,35 @@ endfunction()
 vcpkg_from_git(
     OUT_SOURCE_PATH SOURCE_PATH
     URL https://chromium.googlesource.com/v8/v8.git
-    REF 7d3d62c91f69a702e5aa54c6b4dbbaa883683717
-    PATCHES ${CURRENT_PORT_DIR}/v8.patch
+    REF beee9f5cafde91bbd086077a11db16cb9768e62a
 )
 
 message(STATUS "Fetching submodules")
 v8_fetch(
         DESTINATION build
         URL https://chromium.googlesource.com/chromium/src/build.git
-        REF fd86d60f33cbc794537c4da2ef7e298d7f81138e 
+        REF 81330a6e45719ab8c0d22e5548afbedb5482b068
         SOURCE ${SOURCE_PATH}
-        PATCHES ${CURRENT_PORT_DIR}/build.patch)
+        )
 v8_fetch(
         DESTINATION third_party/zlib
         URL https://chromium.googlesource.com/chromium/src/third_party/zlib.git
-        REF 156be8c52f80cde343088b4a69a80579101b6e67
-        SOURCE ${SOURCE_PATH})
-v8_fetch(
-        DESTINATION base/trace_event/common
-        URL https://chromium.googlesource.com/chromium/src/base/trace_event/common.git
-        REF dab187b372fc17e51f5b9fad8201813d0aed5129
+        REF 85f05b0835f934e52772efc308baa80cdd491838
         SOURCE ${SOURCE_PATH})
 v8_fetch(
         DESTINATION third_party/googletest/src
         URL https://chromium.googlesource.com/external/github.com/google/googletest.git
-        REF 10b1902d893ea8cc43c69541d70868f91af3646b
+        REF b2b9072ecbe874f5937054653ef8f2731eb0f010
         SOURCE ${SOURCE_PATH})
 v8_fetch(
         DESTINATION third_party/jinja2
         URL https://chromium.googlesource.com/chromium/src/third_party/jinja2.git
-        REF b41863e42637544c2941b574c7877d3e1f663e25
+        REF c3027d884967733057bf74b957e3fea87e5df4d7
         SOURCE ${SOURCE_PATH})
 v8_fetch(
         DESTINATION third_party/markupsafe
         URL https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git
-        REF 8f45f5cfa0009d2a70589bcda0349b8cb2b72783
+        REF 4256084ae14175d38a3f7d739dca83ae49ccec6
         SOURCE ${SOURCE_PATH})
 
 vcpkg_execute_required_process(
@@ -160,7 +154,7 @@ message(STATUS "Generating v8 build files. Please wait...")
 
 vcpkg_gn_configure(
     SOURCE_PATH "${SOURCE_PATH}"
-    OPTIONS "is_component_build=${is_component_build} target_cpu=\"${VCPKG_TARGET_ARCHITECTURE}\" v8_monolithic=${v8_monolithic} v8_use_external_startup_data=${v8_use_external_startup_data} use_sysroot=false is_clang=false use_custom_libcxx=false v8_enable_verify_heap=false icu_use_data_file=false" 
+    OPTIONS "is_component_build=${is_component_build} target_cpu=\"${VCPKG_TARGET_ARCHITECTURE}\" v8_monolithic=${v8_monolithic} v8_use_external_startup_data=${v8_use_external_startup_data} use_sysroot=false is_clang=false use_custom_libcxx=false v8_enable_verify_heap=false icu_use_data_file=false"
     OPTIONS_DEBUG "is_debug=true enable_iterator_debugging=true pkg_config_libdir=\"${UNIX_CURRENT_INSTALLED_DIR}/debug/lib/pkgconfig\""
     OPTIONS_RELEASE "is_debug=false enable_iterator_debugging=false pkg_config_libdir=\"${UNIX_CURRENT_INSTALLED_DIR}/lib/pkgconfig\""
 )
