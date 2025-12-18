@@ -5,7 +5,7 @@
   "description": "Google Chrome's JavaScript engine",
   "homepage": "https://v8.dev",
   "license": "BSD-3-Clause",
-  "supports": "!(arm | arm64 | uwp | osx | linux)",
+  "supports": "(x64 | x86) & !uwp",
   "dependencies": [
     {
       "name": "glib",
